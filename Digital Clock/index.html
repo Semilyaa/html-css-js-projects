@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Clock</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="hero">
+      <div class="container">
+        <div class="clock">
+          <span id="hrs">00</span>
+          <span>:</span>
+          <span id="min">00</span>
+          <span>:</span>
+          <span id="sec">00</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Update the time immediately
+        updateTime();
+
+        // Update the time every second
+        setInterval(updateTime, 1000);
+      });
+
+      function updateTime() {
+        const currentTime = new Date();
+        let hours = currentTime.getHours();
+        const minutes = currentTime.getMinutes();
+        const seconds = currentTime.getSeconds();
+        const period = hours >= 12 ? "PM" : "AM";
+
+        // Convert hours to 12-hour format
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 should be 12 in 12-hour format
+
+        // Format minutes and seconds with leading zeros if needed
+        const formattedMinutes = padZero(minutes);
+        const formattedSeconds = padZero(seconds);
+
+        // Update the HTML elements with the formatted time
+        document.getElementById("hrs").textContent = hours;
+        document.getElementById("min").textContent = formattedMinutes;
+        document.getElementById("sec").textContent = formattedSeconds;
+
+        const hrsElement = document.getElementById("hrs");
+        if (period === "AM") {
+          hrsElement.classList.remove("pm");
+          hrsElement.classList.add("am");
+        } else {
+          hrsElement.classList.remove("am");
+          hrsElement.classList.add("pm");
+        }
+      }
+
+      function padZero(num) {
+        return num < 10 ? "0" + num : num;
+      }
+    </script>
+  </body>
+</html>
